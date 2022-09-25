@@ -1,0 +1,10 @@
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/rebuild_cache.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_chargenclient.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_timeclient.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/edit_cache.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_allinone.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_time.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_echo.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_discard.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_daytime.dir
+/home/ubuntu1/projects/cpp/muduo/muduo_source/examples/simple/build/CMakeFiles/simple_chargen.dir

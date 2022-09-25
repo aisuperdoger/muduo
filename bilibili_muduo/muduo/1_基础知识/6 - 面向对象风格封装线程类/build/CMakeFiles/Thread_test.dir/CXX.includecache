@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ubuntu1/projects/cpp/muduo/bilibili_muduo/muduo/1_基础知识/6 - 面向对象风格封装线程类/Thread.cpp
+Thread.h
+/home/ubuntu1/projects/cpp/muduo/bilibili_muduo/muduo/1_基础知识/6 - 面向对象风格封装线程类/Thread.h
+iostream
+-
+
+/home/ubuntu1/projects/cpp/muduo/bilibili_muduo/muduo/1_基础知识/6 - 面向对象风格封装线程类/Thread.h
+pthread.h
+-
+
+/home/ubuntu1/projects/cpp/muduo/bilibili_muduo/muduo/1_基础知识/6 - 面向对象风格封装线程类/Thread_test.cpp
+Thread.h
+/home/ubuntu1/projects/cpp/muduo/bilibili_muduo/muduo/1_基础知识/6 - 面向对象风格封装线程类/Thread.h
+unistd.h
+-
+iostream
+-
+

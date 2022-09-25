@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/simple_discard.dir/discard/discard.cc.o CMakeFiles/simple_discard.dir/discard/main.cc.o  -o simple_discard   -L/home/ubuntu1/projects/cpp/muduo/build/debug-cpp11/lib  -Wl,-rpath,/home/ubuntu1/projects/cpp/muduo/build/debug-cpp11/lib -lmuduo_net -lmuduo_base -lpthread 
