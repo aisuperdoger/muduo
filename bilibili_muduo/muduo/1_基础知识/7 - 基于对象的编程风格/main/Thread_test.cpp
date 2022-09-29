@@ -59,8 +59,12 @@ int main(void)
 
 	// 当绑定的是一个对象里面的函数的时候
 	Foo foo(3);
+	// 成员函数前面的取地址符号&不能省略，所以写成&Foo::MemberFun，但是普通函数的取地址符号可以省略
 	Thread t3(boost::bind(&Foo::MemberFun, &foo));
 	Foo foo2(3);
+
+	// 会死循环输出" this is a test2 ..."，这是因为它t3和t4共享了成员变量count，
+	// 当count为0的时候一个线程停了，另一个把count减到-1，-1也为真，就进入了无限循环
 	Thread t4(boost::bind(&Foo::MemberFun2, &foo2, 1000));
 
 	t1.Start();

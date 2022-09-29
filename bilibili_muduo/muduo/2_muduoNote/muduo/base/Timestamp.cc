@@ -13,7 +13,7 @@
 
 using namespace muduo;
 
-// Boost中提供了一个编译时断言宏 BOOST_STATIC_ASSERT
+// Boost中提供了一个编译时断言宏 BOOST_STATIC_ASSERT，测试程序见tests/bsa.cc
 // assert() 是运行时断言
 BOOST_STATIC_ASSERT(sizeof(Timestamp) == sizeof(int64_t));
 

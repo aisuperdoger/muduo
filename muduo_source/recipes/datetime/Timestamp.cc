@@ -3,7 +3,8 @@
 #include <sys/time.h>
 #include <stdio.h>
 #define __STDC_FORMAT_MACROS
-#include <inttypes.h>
+#include <inttypes.h>   // 前面设定了宏 __STDC_FORMAT_MACROS，这样inttypes.h中一些的东西才能被include进行来
+                        // include成功以后，使用#undef取消宏
 #undef __STDC_FORMAT_MACROS
 
 #include <boost/static_assert.hpp>

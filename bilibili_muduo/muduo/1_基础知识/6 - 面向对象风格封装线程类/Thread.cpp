@@ -29,7 +29,7 @@ void* Thread::ThreadRoutine(void* arg)
 	Thread* thread = static_cast<Thread*>(arg);
 	thread->Run();
 	if (thread->autoDelete_)
-		delete thread;
+		delete thread; // 线程结束时，删除本对象
 	return NULL;
 }
 

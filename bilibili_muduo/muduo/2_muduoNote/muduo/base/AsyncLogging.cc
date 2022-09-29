@@ -17,61 +17,61 @@ AsyncLogging::AsyncLogging(const string& basename,
     latch_(1),
     mutex_(),
     cond_(mutex_),
-    currentBuffer_(new Buffer),         // µ±Ç°»º³åÇø
-    nextBuffer_(new Buffer),            // Ô¤±¸»º³åÇø
-    buffers_()                          // »º³åÇøÁÐ±í
+    currentBuffer_(new Buffer),         // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    nextBuffer_(new Buffer),            // Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    buffers_()                          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 {
     currentBuffer_->bzero();
     nextBuffer_->bzero();
     buffers_.reserve(16);
 }
 
- // ¹©Ç°¶ËÉú²úÕßÏß³Ìµ÷ÓÃ£¨ÈÕÖ¾Êý¾ÝÐ´µ½»º³åÇø£©
+ // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìµï¿½ï¿½Ã£ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AsyncLogging::append(const char* logline, int len)
 {
     muduo::MutexLockGuard lock(mutex_);
 
     if (currentBuffer_->avail() > len)
     {
-        // µ±Ç°»º³åÇøÎ´Âú£¬½«Êý¾Ý×·¼Óµ½Ä©Î²
+        // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½Óµï¿½Ä©Î²
         currentBuffer_->append(logline, len);
     }
     else
     {
-        // µ±Ç°»º³åÇøÒÑÂú£¬½«µ±Ç°»º³åÇøÌí¼Óµ½´ýÐ´ÈëÎÄ¼þµÄÒÑÌîÂúµÄ»º³åÇøÁÐ±í
+        // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
         buffers_.push_back(currentBuffer_.release());
 
-        // ½«µ±Ç°»º³åÇøÉèÖÃÎªÔ¤±¸»º³åÇø
+        // ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÔ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (nextBuffer_)
         {
-            currentBuffer_ = boost::ptr_container::move(nextBuffer_);                           // ÒÆ¶¯ÓïÒå
+            currentBuffer_ = boost::ptr_container::move(nextBuffer_);                           // ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            // ÕâÖÖÇé¿ö£¬¼«ÉÙ·¢Éú£¬Ç°¶ËÐ´ÈëËÙ¶ÈÌ«¿ì£¬Ò»ÏÂ×Ó°ÑÁ½¿é»º³åÇø¶¼Ð´Íê£¬
-            // ÄÇÃ´£¬Ö»ºÃ·ÖÅäÒ»¿éÐÂµÄ»º³åÇø¡£
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù·ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ù¶ï¿½Ì«ï¿½ì£¬Ò»ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ê£¬
+            // ï¿½ï¿½Ã´ï¿½ï¿½Ö»ï¿½Ã·ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÂµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             currentBuffer_.reset(new Buffer);                                                   // Rarely happens
         }
 
         currentBuffer_->append(logline, len);
-        cond_.notify();                                                                         // Í¨Öªºó¶Ë¿ªÊ¼Ð´ÈëÈÕÖ¾
+        cond_.notify();                                                                         // Í¨Öªï¿½ï¿½Ë¿ï¿½Ê¼Ð´ï¿½ï¿½ï¿½ï¿½Ö¾
     }
 }
 
 
-// ¹©ºó¶ËÏû·ÑÕßÏß³Ìµ÷ÓÃ£¨½«Êý¾ÝÐ´µ½ÈÕÖ¾ÎÄ¼þ£©
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìµï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½ï¿½ï¿½
 void AsyncLogging::threadFunc()
 {
     assert(running_ == true);
     latch_.countDown();
     LogFile output(basename_, rollSize_, false);
 
-    // ×¼±¸Á½¿é¿ÕÏÐ»º³åÇø
+    // ×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½
     BufferPtr newBuffer1(new Buffer);
     BufferPtr newBuffer2(new Buffer);
     newBuffer1->bzero();
     newBuffer2->bzero();
-    // ×¼±¸»º³åÇøÁÐ±í
+    // ×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
     BufferVector buffersToWrite;
     buffersToWrite.reserve(16);
 
@@ -84,28 +84,28 @@ void AsyncLogging::threadFunc()
         {
             muduo::MutexLockGuard lock(mutex_);
             
-            if (buffers_.empty())                                                               // unusual usage!£¨×¢Òâ£¬ÕâÀïÊÇÒ»¸ö·Ç³£¹æÓÃ·¨£©
+            if (buffers_.empty())                                                               // unusual usage!ï¿½ï¿½×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½
             {
-                cond_.waitForSeconds(flushInterval_);                                           // µÈ´ýÇ°¶ËÐ´ÂúÁËÒ»¸ö»òÕß¶à¸öbuffer,»òÕßÒ»¸ö³¬Ê±Ê±¼äµ½À´
+                cond_.waitForSeconds(flushInterval_);                                           // ï¿½È´ï¿½Ç°ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½buffer,ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½äµ½ï¿½ï¿½
             }
             
-            buffers_.push_back(currentBuffer_.release());                                       // ½«µ±Ç°»º³åÇøÒÆÈëbuffers_
-            currentBuffer_ = boost::ptr_container::move(newBuffer1);                            // ½«¿ÕÏÐµÄnewBuffer1ÖÃÎªµ±Ç°»º³åÇø
-            buffersToWrite.swap(buffers_);                                                      // buffers_ÓëbuffersToWrite½»»»£¬ÕâÑùºóÃæµÄ´úÂë¿ÉÒÔÔÚÁÙ½çÇøÖ®Íâ°²È«µØ·ÃÎÊbuffersToWrite
+            buffers_.push_back(currentBuffer_.release());                                       // ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½buffers_
+            currentBuffer_ = boost::ptr_container::move(newBuffer1);                            // ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½newBuffer1ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            buffersToWrite.swap(buffers_);                                                      // buffers_ï¿½ï¿½buffersToWriteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½Ö®ï¿½â°²È«ï¿½Ø·ï¿½ï¿½ï¿½buffersToWrite
             
             if (!nextBuffer_)
             {
-                nextBuffer_ = boost::ptr_container::move(newBuffer2);                           // È·±£Ç°¶ËÊ¼ÖÕÓÐÒ»¸öÔ¤±¸buffer¿É¹©µ÷Åä£¬
-                                                                                                // ¼õÉÙÇ°¶ËÁÙ½çÇø·ÖÅäÄÚ´æµÄ¸ÅÂÊ£¬Ëõ¶ÌÇ°¶ËÁÙ½çÇø³¤¶È¡£
+                nextBuffer_ = boost::ptr_container::move(newBuffer2);                           // È·ï¿½ï¿½Ç°ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ô¤ï¿½ï¿½bufferï¿½É¹ï¿½ï¿½ï¿½ï¿½ä£¬
+                                                                                                // ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Ä¸ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½
             }
         }
 
         assert(!buffersToWrite.empty());
 
-        // ÏûÏ¢¶Ñ»ý
-        // Ç°¶ËÏÝÈëËÀÑ­»·£¬Æ´Ãü·¢ËÍÈÕÖ¾ÏûÏ¢£¬³¬¹ýºó¶ËµÄ´¦ÀíÄÜÁ¦£¬Õâ¾ÍÊÇµäÐÍµÄÉú²úËÙ¶È
-        // ³¬¹ýÏû·ÑËÙ¶ÈÎÊÌâ£¬»áÔì³ÉÊý¾ÝÔÚÄÚ´æÖÐ¶Ñ»ý£¬ÑÏÖØÊ±Òý·¢ÐÔÄÜÎÊÌâ£¨¿ÉÓÃÄÚ´æ²»×ã£©
-        // »ò³ÌÐò±ÀÀ££¨·ÖÅäÄÚ´æÊ§°Ü£©
+        // ï¿½ï¿½Ï¢ï¿½Ñ»ï¿½
+        // Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Æ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ËµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½Ð¶Ñ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¨ï¿½ï¿½ï¿½ï¿½ï¿½Ú´æ²»ï¿½ã£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Ê§ï¿½Ü£ï¿½
         if (buffersToWrite.size() > 25)
         {
             char buf[256];
@@ -115,7 +115,7 @@ void AsyncLogging::threadFunc()
             fputs(buf, stderr);
             output.append(buf, static_cast<int>(strlen(buf)));
 
-            buffersToWrite.erase(buffersToWrite.begin()+2, buffersToWrite.end());                 // ¶ªµô¶àÓàÈÕÖ¾£¬ÒÔÌÚ³öÄÚ´æ£¬½ö±£ÁôÁ½¿é»º³åÇø
+            buffersToWrite.erase(buffersToWrite.begin()+2, buffersToWrite.end());                 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½Ú´æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½ï¿½
         }
 
         for (size_t i = 0; i < buffersToWrite.size(); ++i)
@@ -127,7 +127,7 @@ void AsyncLogging::threadFunc()
         if (buffersToWrite.size() > 2)
         {
             // drop non-bzero-ed buffers, avoid trashing
-            buffersToWrite.resize(2);                                                             // ½ö±£´æÁ½¸öbuffer£¬ÓÃÓÚnewBuffer1ÓënewBuffer2
+            buffersToWrite.resize(2);                                                             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bufferï¿½ï¿½ï¿½ï¿½ï¿½ï¿½newBuffer1ï¿½ï¿½newBuffer2
         }
 
         if (!newBuffer1)
