@@ -16,7 +16,7 @@ namespace muduo
     /// It's recommended to pass it by value, since it's passed in register on x64.
     ///
     class Timestamp : public muduo::copyable,
-                      public boost::less_than_comparable<Timestamp>           // 要求我们实现 < 操作符，实现了<，也就自动实现了 >, <=, >=
+                      public boost::less_than_comparable<Timestamp>           // 如果我们实现 < 操作符，也就自动实现了 >, <=, >=
     {
         public:
             // 默认初始化时间戳为 0

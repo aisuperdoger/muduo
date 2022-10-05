@@ -44,7 +44,7 @@ string Timestamp::toFormattedString() const
     time_t seconds = static_cast<time_t>(microSecondsSinceEpoch_ / kMicroSecondsPerSecond);
     int microseconds = static_cast<int>(microSecondsSinceEpoch_ % kMicroSecondsPerSecond);
     
-    // https://www.cnblogs.com/raceblog/archive/2009/07/13/1522779.html#:~:text=tm%E6%98%AFC%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%AE%9A,%E9%9D%A2%E6%98%AF%E8%AF%A6%E7%BB%86%E7%9A%84%E5%AE%9A%E4%B9%89%EF%BC%9A
+    // C中的 tm 结构体 ：https://www.cnblogs.com/raceblog/archive/2009/07/13/1522779.html
     struct tm tm_time;
     // 转换为 GMT 时间，加上 _r 是一个线程安全的函数
     gmtime_r(&seconds, &tm_time);
